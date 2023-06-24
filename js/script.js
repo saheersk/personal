@@ -43,23 +43,27 @@ const removeError = (element) => {
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    var regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;
-    var regName = /\d+$/g;
+    let regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g;
+    let regName = /\d+$/g;
 
     let name = fullName.value.trim();
     let email = emailAddress.value.trim();
     let message = userMessage.value.trim();
 
+    let words = message.split(/\s+/);
+
+    console.log('====', words);
+
     if (name.length < 3 || regName.test(name) || name === "") {
-        info = "Username name required or No character or Number should be there";
+        info = "Username name required without special characters and numbers";
         validate(fullName, info);
-    } else if (!regEmail.test(email) || email === "") {
-        info = "Invalid Email Address or spelled incorrectly";
+    }else if (!regEmail.test(email) || email === "") {
+        info = "Invalid Email Address";
         validate(emailAddress, info);
-    } else if (message.length < 10) {
+    }else if (words.length >= 5) {
         info = "Message should be at least 5 words";
         validate(userMessage, info);
-    } else {
+    }else {
         removeError(fullName);
         removeError(emailAddress);
         removeError(userMessage);
